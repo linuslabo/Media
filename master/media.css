@@ -1,0 +1,50 @@
+body {
+	font-family: monospace;
+}
+
+form {
+	width: 650px;
+	border: 3px dashed black;
+	margin: 10px;
+	background-image:url('mush.jpg');
+	background-repeat:no-repeat;
+	background-position:right bottom;
+	font-size: 17px;
+}
+
+h2 {
+	color: #66CC00;
+	font-weight: bold;
+	font-family: monospace;
+	font-size: 200%;
+}
+
+h2 #tit {
+	color: #4D9900;
+}
+
+h3 {
+	color: #3366FF;
+}
+
+#calc {
+   font-size:15px;
+   font-family:Comic Sans MS,sans-serif;
+   font-weight:bold;
+   height:40px;
+   border-style:ridge;
+}
+
+#calc :hover {
+	background-color: white;
+}
+
+#mush {
+	float:right;
+
+}
+
+table {
+	font-size: 17px;
+	font-weight: bold;
+}
