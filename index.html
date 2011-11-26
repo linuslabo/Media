@@ -1,0 +1,42 @@
+<html>
+	<head>
+		<style>@import "media.css"; </style>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+		<script src="media.js"></script>
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js">
+  {lang: 'en-GB'}
+</script>
+
+	</head>
+	<body>
+		<center>
+		<h1>CALCOLO DELLA MEDIA PONDERATA</h1>
+		<form>
+			<h2> <span id="tit" >Aggiungi i tuoi esami</span><br>(tranne le idoneit&agrave;)</h2>
+			<input type="hidden" id="numEsami" name="numEsami" value="1" READONLY />
+			<table id="lista">
+				<tr> <th> Nome (opzionale)</th><th>Voto</th><th>Crediti</th></tr>
+				<tr>
+					<td><input type="text" id="esame1"/></td>
+					<td><input type="text" name="voto1" id="voto1"/></td>
+					<td><input type="text" name="crediti1" id="crediti1"/></td>
+					<td id="piu1"><input type="button" id="piu" value="+"/></td>
+				</tr>
+			</table></br>
+			
+			<input id="calc" type="button" value="Calcola Media (ignora le righe con campi vuoti)" DISABLED /><br></br>
+			Esami sostenuti: <span id="nEsami"></span></br>
+			Totale Crediti: <span id="totCred"></span></br></br>
+			
+			Media Ponderata: <span id="mediaP"></span></br>
+			Media Aritmetica: <span id="mediaA"></span></br>
+			
+			
+			<b>Voto base di Laurea: <span id="laurea"></span></b></br></br></br>
+			<!--img id="mush" src="mush.jpg"/-->
+		</form>
+ by <b><a href="http://coffcoff.netsons.org" target="_blank">CoffCoff2</a>   <a target="_blank" href="http://www.contatore-visite-gratis.com/"><img alt="contatore visite gratis" border="0" src="http://www.contatore-visite-gratis.com/graphics/contatore-visite-gratis.gif"></a><img border="0" src="http://www.contatore-visite-gratis.com/img.gif"> <g:plusone size="medium"></g:plusone>
+
+		</center>
+	</body>
+</html>
