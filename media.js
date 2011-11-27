@@ -1,7 +1,7 @@
 /**
 Script written by Salvatore Cascone
 http://coffcoff.netsons.org
-Please don't copy this script without the permission of the author.
+If you need to copy this script, please let the author know.
 */	
 numRighe=1;
 ultimaRiga=1;
@@ -96,7 +96,7 @@ $(function(){
 		}
 		
 		var mediaP = sommaProdotti/sommaCrediti;
-		var mediaA = sommaVoti/numEsami;
+		var mediaA = sommaVoti/numEsamiN;
 		
 		$("#mediaP").html(mediaP.toFixed(4));
 		$("#mediaA").html(mediaA.toFixed(4));
