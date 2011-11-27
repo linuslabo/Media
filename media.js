@@ -13,30 +13,24 @@ $(function(){
 		$("#calc").click(function() {
 			media();
 		});
-		/*
-		$('.credi').keypress(function(e) {
-			if(e.which == 13) {
-				jQuery(this).blur();
-				jQuery('#piu').focus().click();
-			}
-		});*/
 	});
 	
-	var creditiEnter = function(e, nome){
+	var creditiEnter = function(e, id){
 		if (e.keyCode != 13) return;
-		var num=parseInt(nome.substring(7));
+		var num=parseInt(id.substring(7));
 		if(num==ultimaRiga) $('#piu').focus().click();
 		else $("#esame"+(num+1)).focus();
 	}
 	
-	var nomeEnter = function(e, nome){
+	var nomeEnter = function(e, id){
 		if (e.keyCode != 13) return;
-		$("#voto"+parseInt(nome.substring(5))).focus();
+		$("#voto"+parseInt(id.substring(5))).focus();
 	}
 	
-	var votoEnter = function(e, nome){
+	var votoEnter = function(e, id){
 		if (e.keyCode != 13) return;
-		$("#crediti"+parseInt(nome.substring(4))).focus();
+		alert($("#"+id).val());
+		$("#crediti"+parseInt(id.substring(4))).focus();
 	}
 	
 	var pulsantePremuto = function(){
@@ -63,7 +57,7 @@ $(function(){
 		if(flag==false) return;
 		
 		
-		$("#lista").append('<tr>'+'<td><input type="text" id="esame'+numEsamiN+'" OnKeyDown="nomeEnter(event, this.id)"/></td>'+'<td><input type="text" name="voto'+numEsamiN+'" id="voto'+numEsamiN+'" OnKeyDown="votoEnter(event, this.id)"/></td>'+'<td><input type="text" name="crediti'+numEsamiN+'" id="crediti'+numEsamiN+'" OnKeyDown="creditiEnter(event, this.id)"/></td>'+'<td id="piu'+numEsamiN+'"></td>'+'</tr>');
+		$("#lista").append('<tr>'+'<td><input type="text" id="esame'+numEsamiN+'" OnKeyDown="nomeEnter(event, this.id)"/></td>'+'<td><input type="text" class="vot" name="voto'+numEsamiN+'" id="voto'+numEsamiN+'" OnKeyDown="votoEnter(event, this.id)"/></td>'+'<td><input type="text" class="credit" name="crediti'+numEsamiN+'" id="crediti'+numEsamiN+'" OnKeyDown="creditiEnter(event, this.id)"/></td>'+'<td id="piu'+numEsamiN+'"></td>'+'</tr>');
 		$("#piu").appendTo("#piu"+numEsamiN);
 		var numEsami=$("#numEsami").val(numEsamiN);
 		numRighe++;
@@ -73,7 +67,8 @@ $(function(){
 	}
 	
 	var media = function(){
-		var numEsami = $("#numEsami").val()
+		var numEsami = $("#numEsami").val();
+		var numEsamiN=numEsami;
 		var sommaCrediti=0;
 		var sommaProdotti=0;
 		var sommaVoti=0;
@@ -83,16 +78,16 @@ $(function(){
 			var vot=parseInt($("#voto"+i).val());
 			var cred=parseInt($("#crediti"+i).val());
 			
-			if(!isNum(vot)){ $("#voto"+numEsami).css("background-color", "red"); flag=false; }
-			else if(vot<18 || vot>30){ $("#voto"+numEsami).css("background-color", "yellow"); flag=false; }
-			else $("#voto"+numEsami).css("background-color", "white");
+			if(!isNum(vot)){ $("#voto"+i).css("background-color", "red"); flag=false; }
+			else if(vot<18 || vot>30){ $("#voto"+i).css("background-color", "yellow"); flag=false; }
+			else $("#voto"+i).css("background-color", "white");
 			
-			if(!isNum(cred)){ $("#crediti"+numEsami).css("background-color", "red"); flag=false; }
-			else if(cred<1 || cred>20){ $("#crediti"+numEsami).css("background-color", "yellow"); flag=false; }
-			else $("#crediti"+numEsami).css("background-color", "white");
+			if(!isNum(cred)){ $("#crediti"+i).css("background-color", "red"); flag=false; }
+			else if(cred<1 || cred>20){ $("#crediti"+i).css("background-color", "yellow"); flag=false; }
+			else $("#crediti"+i).css("background-color", "white");
 			
 			if(!isNum(vot) || !isNum(cred)){
-				numEsami--;
+				numEsamiN--;
 				continue;
 			}
 			
@@ -108,7 +103,7 @@ $(function(){
 		$("#mediaA").html(mediaA.toFixed(4));
 		$("#totCred").html(sommaCrediti);
 		$("#laurea").html(Math.round(mediaP*11/3)+' ('+(mediaP*11/3).toFixed(4)+')');
-		$("#nEsami").html(numEsami);
+		$("#nEsami").html(numEsamiN);
 			
 	}
 	
