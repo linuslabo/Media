@@ -3,15 +3,46 @@ Script written by Salvatore Cascone
 http://coffcoff.netsons.org
 Please don't copy this script without the permission of the author.
 */	
+numRighe=1;
+ultimaRiga=1;
 
 $(function(){
 		$("#piu").click(function() {
-			aggiungiRiga();
+			pulsantePremuto();			
 		});
 		$("#calc").click(function() {
 			media();
 		});
+		/*
+		$('.credi').keypress(function(e) {
+			if(e.which == 13) {
+				jQuery(this).blur();
+				jQuery('#piu').focus().click();
+			}
+		});*/
 	});
+	
+	var creditiEnter = function(e, nome){
+		if (e.keyCode != 13) return;
+		var num=parseInt(nome.substring(7));
+		if(num==ultimaRiga) $('#piu').focus().click();
+		else $("#esame"+(num+1)).focus();
+	}
+	
+	var nomeEnter = function(e, nome){
+		if (e.keyCode != 13) return;
+		$("#voto"+parseInt(nome.substring(5))).focus();
+	}
+	
+	var votoEnter = function(e, nome){
+		if (e.keyCode != 13) return;
+		$("#crediti"+parseInt(nome.substring(4))).focus();
+	}
+	
+	var pulsantePremuto = function(){
+		aggiungiRiga();
+		$("#esame"+ultimaRiga).focus();
+	}
 
 	var aggiungiRiga = function(){
 		var numEsami=$("#numEsami").val();
@@ -32,9 +63,11 @@ $(function(){
 		if(flag==false) return;
 		
 		
-		$("#lista").append('<tr>'+'<td><input type="text" id="esame'+numEsamiN+'"/></td>'+'<td><input type="text" name="voto'+numEsamiN+'" id="voto'+numEsamiN+'"/></td>'+'<td><input type="text" name="crediti'+numEsamiN+'" id="crediti'+numEsamiN+'"/></td>'+'<td id="piu'+numEsamiN+'"></td>'+'</tr>');
+		$("#lista").append('<tr>'+'<td><input type="text" id="esame'+numEsamiN+'" OnKeyDown="nomeEnter(event, this.id)"/></td>'+'<td><input type="text" name="voto'+numEsamiN+'" id="voto'+numEsamiN+'" OnKeyDown="votoEnter(event, this.id)"/></td>'+'<td><input type="text" name="crediti'+numEsamiN+'" id="crediti'+numEsamiN+'" OnKeyDown="creditiEnter(event, this.id)"/></td>'+'<td id="piu'+numEsamiN+'"></td>'+'</tr>');
 		$("#piu").appendTo("#piu"+numEsamiN);
 		var numEsami=$("#numEsami").val(numEsamiN);
+		numRighe++;
+		ultimaRiga++;
 		$("#calc").removeAttr('DISABLED');
 		
 	}
