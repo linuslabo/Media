@@ -29,7 +29,6 @@ $(function(){
 	
 	var votoEnter = function(e, id){
 		if (e.keyCode != 13) return;
-		alert($("#"+id).val());
 		$("#crediti"+parseInt(id.substring(4))).focus();
 	}
 	
