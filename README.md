@@ -9,7 +9,7 @@ per gli studenti universitari.
 
 ## Istruzioni
 
-    Inserisci voti e crediti di ciascun esame e clicca su "Calcola Media".
+Inserisci voti e crediti di ciascun esame e clicca su "Calcola Media".
 
 ## Licenza
 Media è sotto licenza MIT (dai un occhio a LICENSE.md).
