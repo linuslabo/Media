@@ -1,8 +1,15 @@
-
-Media è un piccolo programma per calcolare:
+# Media
+Media è una semplice pagina web per calcolare:
 
 - Media Ponderata
 - Media Aritmetica
-- Voto Base di Laurea
+- Voto base di laurea
 
-per l'università.
+per gli studenti universitari.
+
+## Istruzioni
+
+    Inserisci voti e crediti di ciascun esame e clicca su "Calcola Media".
+
+## Licenza
+Media è sotto licenza MIT (dai un occhio a LICENSE.md).

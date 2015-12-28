@@ -1,43 +1,77 @@
 <html>
+
 	<head>
 		<title> Media Ponderata e Voto Laurea</title>
-		<style>@import "media.css"; </style>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+
+		<link rel="stylesheet" href="media.css">
+		<meta name="description" content="Calcola velocemente media e voto di laurea">
+		<meta name="keywords" content="media ponderata voto aritmetica laurea mediaponderata">
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 		<script src="media.js"></script>
-		<script type="text/javascript" src="https://apis.google.com/js/plusone.js">
-		  {lang: 'en-GB'}
-		</script>
-
 	</head>
-	<body>
-		<center>
-		<h1>MEDIA PONDERATA E VOTO DI LAUREA</h1>
-		<form>
-			<h2> <span id="tit" >Aggiungi i tuoi esami</span><br>(tranne le idoneit&agrave;)</h2>
-			<h4> Puoi avanzare fra i campi premendo Invio :]</h4>
-			<input type="hidden" id="numEsami" name="numEsami" value="1" READONLY />
-			<table id="lista">
-				<tr> <th> Nome (opzionale)</th><th>Voto</th><th>Crediti</th></tr>
-				<tr>
-					<td><input type="text" id="esame1" OnKeyDown="nomeEnter(event, this.id)"/></td>
-					<td><input type="text" class="vot" name="voto1" id="voto1" OnKeyDown="votoEnter(event, this.id)"/></td>
-					<td><input type="text" class="credit" name="crediti1" id="crediti1" OnKeyDown="creditiEnter(event, this.id)"/></td>
-					<td id="piu1"><input type="button" id="piu" value="+"/></td>
-				</tr>
-			</table></br>
-			
-			<input id="calc" type="button" value="Calcola Media (ignora le righe non valide)" DISABLED /><br></br>
-			Esami sostenuti: <span id="nEsami"></span></br>
-			Totale Crediti: <span id="totCred"></span></br></br>
-			
-			Media Ponderata: <span id="mediaP"></span></br>
-			Media Aritmetica: <span id="mediaA"></span></br>
-			
-			
-			<b>Voto base di Laurea: <span id="laurea"></span></b></br></br></br>
-		</form>
-		by <b><a href="http://coffcoff.netsons.org" target="_blank">CoffCoff2</a>   <a target="_blank" href="http://www.contatore-visite-gratis.com/"><img alt="contatore visite gratis" border="0" src="http://www.contatore-visite-gratis.com/graphics/contatore-visite-gratis.gif"></a><img border="0" src="http://www.contatore-visite-gratis.com/img.gif"> <g:plusone size="medium"></g:plusone>
 
-		</center>
+	<body>
+		<h1>Media ponderata e voto di laurea</h1>
+		<form>
+			<div id="main">
+				<h2> <span id="tit" >Aggiungi i tuoi esami</span> (tranne le idoneit&agrave;)</h2>
+				<h4> Puoi avanzare fra i campi premendo Invio :]     <a id="opzioni" class="but blue small">Opzioni</a></h4>
+				<div class="leftAlign hidden">
+					<input type="checkbox" name="nome" value="nome" /> Non voglio inserire i nomi degli esami </br>
+					<input type="checkbox" name="crediti" value="crediti" /> Voglio solo la media aritmetica </br>
+				</div>
+				</br>
+				<table id="lista">
+					<tr>
+						<th> </th>
+						<th> Nome (opzionale)</th>
+						<th>Voto</th>
+						<th>Crediti</th>
+					</tr>
+					<tr>
+						<td>
+							<input type="button" class="meno" value="-" title="Elimina questa riga" />
+						</td>
+						<td>
+							<input type="text" class="esame" />
+						</td>
+						<td>
+							<input type="number" class="voto" />
+						</td>
+						<td>
+							<input type="number" class="crediti" />
+						</td>
+						<td id="piu1">
+							<input type="button" id="piu" value="+" title="Aggiungi una riga" />
+						</td>
+					</tr>
+				</table>
+				</br>
+				<input id="calc" type="button" value="Calcola Media" title="NB: Le righe non valide sarannno ignorate." />
+				</br>
+				</br>
+				<div id="risultati" class="hidden">
+					Esami sostenuti: <span id="nEsami"></span></br>
+					Totale Crediti: <span id="totCred"></span></br>
+					</br>
+
+					Media Ponderata: <span id="mediaP"></span></br>
+					Media Aritmetica: <span id="mediaA"></span></br>
+
+
+					<b>Voto base di Laurea: <span id="laurea"></span></b></br>
+					</br>
+					</br>
+				</div>
+			</div>
+			<span id="feedback"></span>
+		</form>
+		<br/> v. 1.9 by <a href="" target="_blank">Linuslabo</a> - Visite: <span id="counter"></span>
+		</br>
+		Disponibile sotto licenza <a href="http://opensource.org/licenses/mit-license.php ">MIT</a>.
+		<br/>
+		<br/>
 	</body>
+
 </html>

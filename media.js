@@ -1,113 +1,177 @@
 /**
-Script written by Salvatore Cascone
-http://coffcoff.netsons.org
-If you need to copy this script, please let the author know.
-*/	
-numRighe=1;
-ultimaRiga=1;
+ Written by Salvatore Cascone
+ http://cascone.net
+ If you need to use this script, please let the author know.
+ */
 
-$(function(){
-		$("#piu").click(function() {
-			pulsantePremuto();			
-		});
-		$("#calc").click(function() {
-			media();
-		});
+$(function () {
+
+	var esameOn = true;
+	var creditiOn = true;
+
+	$("#opzioni").click(function () {
+		$(".leftAlign").slideToggle();
 	});
-	
-	var creditiEnter = function(e, id){
-		if (e.keyCode != 13) return;
-		var num=parseInt(id.substring(7));
-		if(num==ultimaRiga) $('#piu').focus().click();
-		else $("#esame"+(num+1)).focus();
-	}
-	
-	var nomeEnter = function(e, id){
-		if (e.keyCode != 13) return;
-		$("#voto"+parseInt(id.substring(5))).focus();
-	}
-	
-	var votoEnter = function(e, id){
-		if (e.keyCode != 13) return;
-		$("#crediti"+parseInt(id.substring(4))).focus();
-	}
-	
-	var pulsantePremuto = function(){
-		aggiungiRiga();
-		$("#esame"+ultimaRiga).focus();
-	}
 
-	var aggiungiRiga = function(){
-		var numEsami=$("#numEsami").val();
-		var numEsamiN=parseInt(numEsami)+1;
-		var vot = $("#voto"+(numEsami)).val();
-		var cred = $("#crediti"+(numEsami)).val();
-		var flag=true;
-		
-		
-		if(!isNum(vot)){ $("#voto"+numEsami).css("background-color", "red"); flag=false; }
-		else if(vot<18 || vot>30){ $("#voto"+numEsami).css("background-color", "yellow"); flag=false; }
-		else $("#voto"+numEsami).css("background-color", "white");
-		
-		if(!isNum(cred)){ $("#crediti"+numEsami).css("background-color", "red"); flag=false; }
-		else if(cred<1 || cred>20){ $("#crediti"+numEsami).css("background-color", "yellow"); flag=false; }
-		else $("#crediti"+numEsami).css("background-color", "white");
-		
-		if(flag==false) return;
-		
-		
-		$("#lista").append('<tr>'+'<td><input type="text" id="esame'+numEsamiN+'" OnKeyDown="nomeEnter(event, this.id)"/></td>'+'<td><input type="text" class="vot" name="voto'+numEsamiN+'" id="voto'+numEsamiN+'" OnKeyDown="votoEnter(event, this.id)"/></td>'+'<td><input type="text" class="credit" name="crediti'+numEsamiN+'" id="crediti'+numEsamiN+'" OnKeyDown="creditiEnter(event, this.id)"/></td>'+'<td id="piu'+numEsamiN+'"></td>'+'</tr>');
-		$("#piu").appendTo("#piu"+numEsamiN);
-		var numEsami=$("#numEsami").val(numEsamiN);
-		numRighe++;
-		ultimaRiga++;
-		$("#calc").removeAttr('DISABLED');
-		
-	}
-	
-	var media = function(){
-		var numEsami = $("#numEsami").val();
-		var numEsamiN=numEsami;
-		var sommaCrediti=0;
-		var sommaProdotti=0;
-		var sommaVoti=0;
-		var flag=true;
-		
-		for(var i=1; i<=numEsami; i++){
-			var vot=parseInt($("#voto"+i).val());
-			var cred=parseInt($("#crediti"+i).val());
-			
-			if(!isNum(vot)){ $("#voto"+i).css("background-color", "red"); flag=false; }
-			else if(vot<18 || vot>30){ $("#voto"+i).css("background-color", "yellow"); flag=false; }
-			else $("#voto"+i).css("background-color", "white");
-			
-			if(!isNum(cred)){ $("#crediti"+i).css("background-color", "red"); flag=false; }
-			else if(cred<1 || cred>20){ $("#crediti"+i).css("background-color", "yellow"); flag=false; }
-			else $("#crediti"+i).css("background-color", "white");
-			
-			if(!isNum(vot) || !isNum(cred)){
-				numEsamiN--;
-				continue;
-			}
-			
-			sommaVoti+=vot;
-			sommaProdotti+=vot*cred;
-			sommaCrediti+=cred;
+	$("input[type=checkbox]").change(function () {
+		if ($(this).val() == "nome") {
+			$("#lista tr td:nth-child(2), #lista tr th:nth-child(2)").toggleClass("hidden");
+			esameOn = !esameOn;
 		}
-		
-		var mediaP = sommaProdotti/sommaCrediti;
-		var mediaA = sommaVoti/numEsamiN;
-		
+		else if ($(this).val() == "crediti") {
+			$("#lista tr td:nth-child(4), #lista tr th:nth-child(4)").toggleClass("hidden");
+			creditiOn = !creditiOn;
+		}
+	});
+
+	$(document).on("focusout", ".voto", function () {
+		verificaVoto($(this));
+	});
+
+	$(document).on("focusout", ".crediti", function () {
+		verificaCrediti($(this));
+	});
+
+	$(document).on("change", "input[type=text]", function () {
+		$("#risultati").slideUp("slow");
+	});
+
+	$(document).on("keydown", "input", function (e) {
+		var focusNextRow = function ($curtd) {
+			$curRow = $curtd.closest("tr");
+			if ($curRow.next().length == 0)
+				$("#piu").click();
+			if (esameOn)
+				$curRow.next().find(".esame").focus().select();
+			else
+				$curRow.next().find(".voto").focus().select();
+		}
+
+		if (e.keyCode != 13)
+			return;
+		if ($(this).hasClass("esame"))
+			$(this).closest("tr").find(".voto").focus().select();
+		if ($(this).hasClass("voto")) {
+			if (!creditiOn)
+				focusNextRow($(this));
+			$(this).closest("tr").find(".crediti").focus().select();
+		}
+		if ($(this).hasClass("crediti")) {
+			focusNextRow($(this));
+		}
+	});
+
+	$("#piu").click(function () {
+		$row = $('<tr><td><input type="button" class="meno" value="-"/></td><td><input type="text" class="esame"/></td><td><input type="number" class="voto" /></td><td><input type="number" class="crediti"/></td></tr>');
+
+		if (!esameOn)
+			$row.find("td:nth-child(2)").addClass("hidden");
+		if (!creditiOn)
+			$row.find("td:nth-child(4)").addClass("hidden");
+
+		$(this).parent("#piu1").appendTo($row);
+		$("#lista > tbody").append($row);
+		$("#calc").removeAttr('DISABLED');
+	});
+
+	$(document).on("click", ".meno", function () {
+		if ($(this).closest("tr").find("#piu1").length == 0) {
+			$(this).closest("tr").remove();
+		}
+		else {
+			$prevRow = $(this).closest("tr").prev("tr");
+			console.log($prevRow.find("th").length);
+			if ($prevRow.find("th").length == 0) {
+				$("#piu1").appendTo($prevRow);
+				$(this).closest("tr").remove();
+			}
+		}
+	});
+
+	$("#calc").click(function () {
+
+		var numEsami = 0;
+		var sommaCrediti = 0;
+		var sommaProdotti = 0;
+		var sommaVoti = 0;
+		var mediaP = 0;
+		var mediaA = 0;
+
+		$("#lista").find("tr").not(":first-child").each(function () {
+
+			var voto = 0;
+			var crediti = 0;
+
+			var votoOk = verificaVoto($(this).find(".voto"));
+			var creditiOk = !creditiOn || verificaCrediti($(this).find(".crediti"));
+
+			if (votoOk && creditiOk) {
+				voto = parseInt($(this).find(".voto").val(), 10);
+				crediti = parseInt($(this).find(".crediti").val(), 10);
+
+				numEsami++;
+				sommaVoti += voto;
+				sommaCrediti += crediti;
+				sommaProdotti += voto * crediti;
+			}
+		});
+
+		if (numEsami) {
+			mediaP = sommaProdotti / sommaCrediti;
+			mediaA = sommaVoti / numEsami;
+		}
+
 		$("#mediaP").html(mediaP.toFixed(4));
 		$("#mediaA").html(mediaA.toFixed(4));
-		$("#totCred").html(sommaCrediti);
-		$("#laurea").html(Math.round(mediaP*11/3)+' ('+(mediaP*11/3).toFixed(4)+')');
-		$("#nEsami").html(numEsamiN);
-			
-	}
-	
-	var isNum = function(num) {
-		return (!isNaN(num) && !isNaN(parseFloat(num)));
-	}
 
-/** by CoffCoff2 - http://coffcoff.netsons.org */
+		$("#totCred").html(sommaCrediti);
+
+		if (creditiOn)
+			$("#laurea").html(Math.round(mediaP * 11 / 3) + ' (' + (mediaP * 11 / 3).toFixed(4) + ')');
+		else
+			$("#laurea").html(Math.round(mediaA * 11 / 3) + ' (' + (mediaA * 11 / 3).toFixed(4) + ')');
+
+		$("#nEsami").html(numEsami);
+
+		if (!creditiOn)
+			$("#totCred, #mediaP").html("ignorato");
+
+		$("#risultati").slideDown();
+	});
+});
+
+var verificaVoto = function ($input) {
+	var vot = $input.val();
+	if (!isNum(vot) || vot < 18 || vot > 30) {
+		$input.addClass("err");
+		return false;
+	}
+	else
+		$input.removeClass("err warn");
+
+	return true;
+};
+
+var verificaCrediti = function ($input) {
+	var cred = $input.val();
+
+	if (!isNum(cred) || cred < 1) {
+		$input.removeClass("err warn");
+		$input.addClass("err");
+		return false;
+	}
+	else if (cred > 30) {
+		$input.removeClass("err warn");
+		$input.addClass("warn");
+	}
+	else
+		$input.removeClass("err warn");
+
+	return true;
+};
+
+var isNum = function (num) {
+	return (!isNaN(num) && !isNaN(parseFloat(num)));
+};
+
+/** by linuslabo - http://cascone.net */
