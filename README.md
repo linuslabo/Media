@@ -8,6 +8,7 @@ Media è una semplice pagina web per calcolare:
 per gli studenti universitari.
 
 ## Istruzioni
+Visita la pagina: http://linuslabo.github.io/Media/
 
 Inserisci voti e crediti di ciascun esame e clicca su "Calcola Media".
 
